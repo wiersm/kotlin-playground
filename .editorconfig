@@ -1,0 +1,29 @@
+
+##
+## EditorConfig
+##
+## These code style settings apply recursively to this directory, so that
+## all developers can share the same indentation style and other settings.
+##
+## Works in Bitbucket, IntelliJ IDEA, and there is a plugin for Eclipse.
+##
+
+# Top-most EditorConfig file
+root = true
+[*]
+
+# Property `end_of_line` is not used, because this is handled by git
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Four space indentation (SPR-1094)
+indent_style = space
+indent_size = 4
+
+# Set default charset
+[*.{editorconfig,gz,ps1,cdc,xslt,tld,ddl,sql,php,xjb,svg,wsdl,json,config,settings,datasource,aspx,gitignore,md,version,csv,less,vm,scm,py,wiki,xsd,mf,cer,ent,xsl,iml,sh,ftl,java,html,css,js,jspf,jsp,txt,feature,xml,cs,ftlx}]
+charset = utf-8
+
+# Add 'windows-1252' as properties file encoding if this issue ever gets resolved: https://github.com/editorconfig/editorconfig/issues/209
+#[*.{properties,bat}]
+#charset = windows-1252
