@@ -4,9 +4,12 @@ import java.io.File
 import java.net.URL
 import kotlin.streams.asSequence
 
-class FileReader {
+class FileReader(val logger: Logger) {
+    constructor() : this(Logger())
+
     /** Returns the complete contents of the file. */
     fun readFile(resource: URL): String {
+        logger.debug("Reading from file ${resource.file}")
         return file(resource).readText()
     }
 
@@ -17,6 +20,7 @@ class FileReader {
 
     /** Returns a sequence with the lines of the file. */
     fun readLines(resource: URL): Sequence<String> {
+        logger.debug("Reading from file ${resource.file}")
         return file(resource).bufferedReader().lines().asSequence()
     }
 
