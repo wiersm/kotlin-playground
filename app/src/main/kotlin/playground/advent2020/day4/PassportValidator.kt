@@ -45,19 +45,19 @@ class PassportValidator(val logger: Logger) {
         }
 
         val byr = fields["byr"]!!
-        if (!byr.matches(Regex("""\d\d\d\d""")) || byr.toInt() < 1920 || byr.toInt() > 2002) {
+        if (!byr.matches(Regex("""\d{4}""")) || byr.toInt() < 1920 || byr.toInt() > 2002) {
             logger.debug("Invalid byr: $byr")
             isValid = false
         }
 
         val iyr = fields["iyr"]!!
-        if (!iyr.matches(Regex("""\d\d\d\d""")) || iyr.toInt() < 2010 || iyr.toInt() > 2020) {
+        if (!iyr.matches(Regex("""\d{4}""")) || iyr.toInt() < 2010 || iyr.toInt() > 2020) {
             logger.debug("Invalid iyr: $iyr")
             isValid = false
         }
 
         val eyr = fields["eyr"]!!
-        if (!eyr.matches(Regex("""\d\d\d\d""")) || eyr.toInt() < 2020 || eyr.toInt() > 2030) {
+        if (!eyr.matches(Regex("""\d{4}""")) || eyr.toInt() < 2020 || eyr.toInt() > 2030) {
             logger.debug("Invalid eyr: $eyr")
             isValid = false
         }
@@ -83,7 +83,7 @@ class PassportValidator(val logger: Logger) {
         }
 
         val hcl = fields["hcl"]!!
-        if (!hcl.matches(Regex("""#[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]"""))) {
+        if (!hcl.matches(Regex("""#[0-9a-f]{6}"""))) {
             logger.debug("Invalid hcl: $hcl")
             isValid = false
         }
@@ -96,7 +96,7 @@ class PassportValidator(val logger: Logger) {
         }
 
         val pid = fields["pid"]!!
-        if (!pid.matches(Regex("""\d\d\d\d\d\d\d\d\d"""))) {
+        if (!pid.matches(Regex("""\d{9}"""))) {
             logger.debug("Invalid pid: $pid")
             isValid = false
         }
