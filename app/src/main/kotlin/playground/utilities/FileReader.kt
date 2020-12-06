@@ -28,6 +28,16 @@ class FileReader(val logger: Logger) {
     fun readLinesWithCommaSeparatedValues(resource: URL): Sequence<Sequence<String>> {
         return readLines(resource).map(::splitCommaSeparated)
     }
+
+    /** Returns a sequence of blocks of lines (separated by blank lines in the file). */
+    fun readBlocksOfLines(resource: URL): Sequence<Sequence<String>> {
+        return readFile(resource)
+            .splitToSequence("\n\n")
+            .map { block ->
+                block.splitToSequence("\n")
+                    .filter { line -> line.isNotBlank() }
+            }
+    }
 }
 
 fun resource(fileName: String): URL = FileReader::class.java.getResource(fileName)
