@@ -4,38 +4,38 @@ import playground.utilities.Logger
 
 class AnswerProcessor(val l: Logger) {
     fun countUniqueAnswersPerGroup(answers: Sequence<Sequence<String>>): Int {
-        var count = 0
-        answers.forEach { answersForGroup ->
-            l.debug("Processing a group")
-            val uniqueAnswers = mutableSetOf<Char>()
-            answersForGroup.forEach { answer ->
-                l.debug("Processing answers: $answer")
-                uniqueAnswers.addAll(answer.toCharArray().toSet())
-            }
-            count += uniqueAnswers.size
-        }
-        return count
+        return answers.map { answersForGroup ->
+            l.debug("Next group: ${answersForGroup.toList()}")
+            val uniqueAnswers = answersForGroup
+                .map {
+                    // Create a set with the answers for this line.
+                    it.toCharArray().toSet()
+                }
+                .reduce { answersSoFar, nextAnswers ->
+                    // Reduce the answers by taking the union of the answers.
+                    answersSoFar.union(nextAnswers)
+                }
+            l.debug("Unique answers for this group: ${uniqueAnswers.toList()}")
+            uniqueAnswers.size
+        }.sum()
     }
 
     fun countCommonAnswersPerGroup(answers: Sequence<Sequence<String>>): Int {
-        var count = 0
-        answers.forEach { answersForGroup ->
-            val commonAnswers = mutableSetOf<Char>()
-            var isFirst = true
-            answersForGroup.forEach { answer ->
-                l.debug("Processing answers: $answer")
-                val nextAnswers = answer.toCharArray().toSet()
-                if (isFirst) {
-                    commonAnswers.addAll(nextAnswers)
-                    isFirst = false
-                } else {
-                    commonAnswers.removeIf { c -> !nextAnswers.contains(c) }
+        return answers.map { answersForGroup ->
+            l.debug("Next group: ${answersForGroup.toList()}")
+            val commonAnswers = answersForGroup
+                .map { answer ->
+                    // Create a set with the answers for this line.
+                    answer.toCharArray().toSet()
                 }
-            }
+                .reduce { answersSoFar, nextAnswers ->
+                    // Reduce the answers by taking the interesction of the answers.
+                    answersSoFar.intersect(nextAnswers)
+                }
+
             l.debug("Common answers for group: ${commonAnswers.toList()}")
-            count += commonAnswers.size
-        }
-        return count
+            commonAnswers.size
+        }.sum()
     }
 
     constructor() : this(Logger())
