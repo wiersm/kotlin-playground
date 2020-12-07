@@ -29,7 +29,7 @@ class AnswerProcessor(val l: Logger) {
                     answer.toCharArray().toSet()
                 }
                 .reduce { answersSoFar, nextAnswers ->
-                    // Reduce the answers by taking the interesction of the answers.
+                    // Reduce the answers by taking the intersection of the answers.
                     answersSoFar.intersect(nextAnswers)
                 }
 
