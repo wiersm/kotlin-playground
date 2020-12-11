@@ -1,19 +1,9 @@
 package playground.utilities
 
 class Grid<T>(input: List<List<T>>) {
-    val values: MutableList<MutableList<T>>
-    init {
-        values = input.map{row -> row.toMutableList()}.toMutableList()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is Grid<*>) return false
-        return values == other.values
-    }
-
-    override fun hashCode(): Int {
-        return values.hashCode()
-    }
+    val values = input.map{row -> row.toMutableList()}.toMutableList()
+    val indicesX = values[0].indices
+    val indicesY = values.indices
 
     fun forEachCoordinate(f: (x: Int, y: Int) -> Unit) {
         for (y in values.indices) for (x in values[y].indices) f(x, y)
@@ -21,14 +11,6 @@ class Grid<T>(input: List<List<T>>) {
 
     fun copy(): Grid<T> {
         return Grid(values)
-    }
-
-    override fun toString(): String {
-        return values.joinToString("\n") { chars -> chars.joinToString("") }
-    }
-
-    fun get(x: Int, y: Int): T {
-        return values[y][x]
     }
 
     fun adjacentsFor(x: Int, y: Int): Sequence<T> {
@@ -54,8 +36,25 @@ class Grid<T>(input: List<List<T>>) {
         return adjacentValues.asSequence()
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is Grid<*>) return false
+        return values == other.values
+    }
+
+    override fun hashCode(): Int {
+        return values.hashCode()
+    }
+
+    override fun toString(): String {
+        return values.joinToString("\n") { chars -> chars.joinToString("") }
+    }
+
     fun set(x: Int, y: Int, value: T) {
         values[y][x] = value
+    }
+
+    fun get(x: Int, y: Int): T {
+        return values[y][x]
     }
 }
 

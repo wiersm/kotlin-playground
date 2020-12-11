@@ -20,9 +20,9 @@ class SeatingSimulatorTest {
         "L.LLLLL.LL")
 
     @Test
-    fun `should find stable seating arrangement`() {
+    fun `should find stable seating arrangement adjacent`() {
         val inputGrid = charGridOf(input)
-        val outputGrid = SeatingSimulator(Logger(LogLevel.DEBUG)).findStableSeating(inputGrid)
+        val outputGrid = SeatingSimulator(Logger(LogLevel.DEBUG)).findStableSeating(inputGrid, SeatingMethod.ADJACENT)
 
         val expectedOutput = charGridOf(sequenceOf(
             "#.#L.L#.##",
@@ -35,6 +35,27 @@ class SeatingSimulatorTest {
             "#L#L##L#L#",
             "#.LLLLLL.L",
             "#.#L#L#.##"
+        ))
+
+        assertEquals(expectedOutput, outputGrid)
+    }
+
+    @Test
+    fun `should find stable seating arrangement visible`() {
+        val inputGrid = charGridOf(input)
+        val outputGrid = SeatingSimulator(Logger(LogLevel.DEBUG)).findStableSeating(inputGrid, SeatingMethod.VISIBLE)
+
+        val expectedOutput = charGridOf(sequenceOf(
+            "#.L#.L#.L#",
+            "#LLLLLL.LL",
+            "L.L.L..#..",
+            "##L#.#L.L#",
+            "L.L#.LL.L#",
+            "#.LLLL#.LL",
+            "..#.L.....",
+            "LLL###LLL#",
+            "#.LLLLL#.L",
+            "#.L#LL#.L#"
         ))
 
         assertEquals(expectedOutput, outputGrid)
