@@ -3,7 +3,7 @@ package playground.advent2019.day3
 import kotlin.math.max
 import kotlin.math.min
 
-class Grid(val xmin: Int, val ymin: Int, val xmax: Int, val ymax: Int) {
+class BooleanGrid(val xmin: Int, val ymin: Int, val xmax: Int, val ymax: Int) {
     val grid: Array<Array<Boolean>> = Array(xmax - xmin + 1) { Array(ymax - ymin + 1) { false } }
 
     fun plotHorizontalLine(xstart: Int, y: Int, steps: Int) {

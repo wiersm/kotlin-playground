@@ -1,13 +1,13 @@
 package playground.advent2019.day3
 
 class PathPlotter {
-    fun plot(path: Sequence<String>): Grid {
+    fun plot(path: Sequence<String>): BooleanGrid {
         // Determine the size of the required grid
         val gridSizeCalculator = GridSizeCalculator()
         gridSizeCalculator.calculateGridSize(path)
 
         // Create a grid with the calculated size
-        val grid = Grid(gridSizeCalculator.xmin, gridSizeCalculator.ymin, gridSizeCalculator.xmax, gridSizeCalculator.ymax)
+        val grid = BooleanGrid(gridSizeCalculator.xmin, gridSizeCalculator.ymin, gridSizeCalculator.xmax, gridSizeCalculator.ymax)
 
         // Plot the path
         var x = 0

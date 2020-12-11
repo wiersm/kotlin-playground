@@ -4,13 +4,13 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class GridTest {
+class BooleanGridTest {
     @Test fun `should start empty`() {
         val xmin = -1
         val ymin = -1
         val xmax = 9
         val ymax = 8
-        val grid = Grid(xmin, ymin, xmax, ymax)
+        val grid = BooleanGrid(xmin, ymin, xmax, ymax)
         for (x in xmin..xmax) {
             for (y in ymin..ymax) {
                 assertFalse(grid.isLocationFilled(x, y))
@@ -19,13 +19,13 @@ class GridTest {
     }
 
     @Test fun `locations outside the grid are empty`() {
-        val grid = Grid(-1, -1, 9, 8)
+        val grid = BooleanGrid(-1, -1, 9, 8)
         assertFalse(grid.isLocationFilled(-2, -2))
         assertFalse(grid.isLocationFilled(100, 10000))
     }
 
     @Test fun `should plot horizontal lines`() {
-        val grid = Grid(-1, -1, 9, 8)
+        val grid = BooleanGrid(-1, -1, 9, 8)
 
         grid.plotHorizontalLine(8, 5, -5)
 
@@ -40,7 +40,7 @@ class GridTest {
     }
 
     @Test fun `should plot vertical lines`() {
-        val grid = Grid(-1, -1, 9, 8)
+        val grid = BooleanGrid(-1, -1, 9, 8)
 
         grid.plotVerticalLine(8, 5, -5)
 
