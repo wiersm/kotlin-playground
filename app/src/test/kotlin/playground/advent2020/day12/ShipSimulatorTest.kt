@@ -14,4 +14,10 @@ class ShipSimulatorTest {
         val distance = ShipSimulator(logger).determineDistanceTraveled(input)
         assertEquals(25, distance)
     }
+
+    @Test
+    fun `should determine distance traveled with waypoints`() {
+        val distance = ShipSimulator(logger).determineDistanceTraveledWithWaypoints(input)
+        assertEquals(286, distance)
+    }
 }
