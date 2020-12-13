@@ -8,7 +8,7 @@ class ShuttleSearcher(val l: Logger) {
         val busIds = buses.filter { it != "x" }.map(String::toInt).toList()
         l.debug("Bus IDs: $busIds")
 
-        val waitTimes = busIds.map { busId -> waitTimeFor(busId, earliestDepartureTime.toBigInteger()) }
+        val waitTimes = busIds.map { busId -> waitTimeFor(busId, earliestDepartureTime) }
         l.debug("Wait times: $waitTimes")
 
         val minWaitTime = waitTimes.min()!!
@@ -24,7 +24,7 @@ class ShuttleSearcher(val l: Logger) {
     // If you take the remainder of dividing the departure time by the busId, then you get the number of minutes
     // *before* the departure time that the bus last came by. Subtract that from the busId to get the number of
     // minutes before it will come by again.
-    private fun waitTimeFor(busId: Int, earliestDepartureTime: BigInteger) = busId - earliestDepartureTime.rem(busId.toBigInteger()).toInt()
+    private fun waitTimeFor(busId: Int, earliestDepartureTime: Int) = busId - earliestDepartureTime.rem(busId)
 
     fun findDepartureTimeMatchingPattern(buses: Sequence<String>): BigInteger {
         /*
@@ -37,6 +37,7 @@ class ShuttleSearcher(val l: Logger) {
          t = n * b1
          So for the second bus we are looking for n such that
          b2 - (n * b1).rem(b2) equals 1
+         or in other words that n * b1 + 1 is a multiple of b2
 
          e.g. 3 and 7
          6, 7 is a solution
@@ -69,15 +70,13 @@ class ShuttleSearcher(val l: Logger) {
             val busId = busIds[i]
             if (busId == 0) continue
 
-            // We are looking for time t such that the *minimum* wait time is the mod of the bus's index (if its index
-            // is larger than its busId, then it will come by again at the required time).
-            val minWaitTime = i.rem(busId)
-            l.debug("Next busId: $busId, current step size $step, looking for min. wait time $minWaitTime")
+            l.debug("Next busId: $busId, current step size $step, looking for offset $i")
 
             // Jump forward until we find a matching time.
+            // We are looking for a time t such that t + i is a multiple of the busId
             do {
                 t += step
-            } while (waitTimeFor(busId, t) != minWaitTime)
+            } while ((t + i.toBigInteger()).rem(busId.toBigInteger()) != BigInteger.ZERO)
 
             l.debug("Matching time for buses up to index $i: $t")
 
