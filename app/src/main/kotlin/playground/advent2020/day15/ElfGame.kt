@@ -3,7 +3,7 @@ package playground.advent2020.day15
 import playground.utilities.Logger
 
 class ElfGame(val l: Logger) {
-    fun playGame(startingSequence: List<Int>): Int {
+    fun playGame(startingSequence: List<Int>, iterations: Int): Int {
         // Use a map to keep track of the last position of each number.
         val positions = hashMapOf<Int, Int>()
 
@@ -15,7 +15,7 @@ class ElfGame(val l: Logger) {
         var lastNumber = startingSequence.last()
 
         // Now we will determine the numbers at position up to 2020 (not including 2020 because zero-based).
-        for (i in startingSequence.size until 2020) {
+        for (i in startingSequence.size until iterations) {
             val positionOfLastNumber = i - 1
             val nextNumber = when (val lastPositionOfLastNumber = positions[lastNumber]) {
                 null -> 0
