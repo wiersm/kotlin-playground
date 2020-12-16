@@ -30,13 +30,13 @@ class CodeBreakerTest {
 
     @Test
     fun `should find first non-matching number`() {
-        val result = CodeBreaker(Logger(LogLevel.DEBUG)).findFirstNonMatchingNumber(simpleInput, 5)
+        val result = CodeBreaker(Logger(LogLevel.NONE)).findFirstNonMatchingNumber(simpleInput, 5)
         assertEquals(127, result)
     }
 
     @Test
     fun `should find encryption weakness`() {
-        val result = CodeBreaker(Logger(LogLevel.DEBUG)).findEncryptionWeakness(127, simpleInput)
+        val result = CodeBreaker(Logger(LogLevel.NONE)).findEncryptionWeakness(127, simpleInput)
         assertEquals(62, result)
     }
 }

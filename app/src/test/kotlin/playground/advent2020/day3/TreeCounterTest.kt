@@ -20,7 +20,7 @@ class TreeCounterTest {
         ".#..#...#.#")
 
     @Test fun `should count trees on trajectory`() {
-        val nrOfTrees = TreeCounter(Logger(LogLevel.DEBUG)).countTreesOnTrajectory(5, 1, treePattern)
+        val nrOfTrees = TreeCounter(Logger(LogLevel.NONE)).countTreesOnTrajectory(5, 1, treePattern)
 
         assertEquals(3, nrOfTrees)
     }
@@ -32,7 +32,7 @@ class TreeCounterTest {
         val nrOfTrees4 = TreeCounter().countTreesOnTrajectory(7, 1, treePattern)
         val nrOfTrees5 = TreeCounter().countTreesOnTrajectory(1, 2, treePattern)
 
-        Logger(LogLevel.DEBUG).debug("$nrOfTrees1, $nrOfTrees2, $nrOfTrees3, $nrOfTrees4, $nrOfTrees5")
+        Logger(LogLevel.NONE).debug("$nrOfTrees1, $nrOfTrees2, $nrOfTrees3, $nrOfTrees4, $nrOfTrees5")
 
         val result = nrOfTrees1 * nrOfTrees2 * nrOfTrees3 * nrOfTrees4 * nrOfTrees5
 

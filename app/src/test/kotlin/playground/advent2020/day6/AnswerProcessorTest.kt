@@ -15,11 +15,11 @@ class AnswerProcessorTest {
 
     @Test
     fun `should sum number of unique answers per group`() {
-        assertEquals(11, AnswerProcessor(Logger(LogLevel.DEBUG)).countUniqueAnswersPerGroup(answers))
+        assertEquals(11, AnswerProcessor(Logger(LogLevel.NONE)).countUniqueAnswersPerGroup(answers))
     }
 
     @Test
     fun `should sum number of common answers per group`() {
-        assertEquals(6, AnswerProcessor(Logger(LogLevel.DEBUG)).countCommonAnswersPerGroup(answers))
+        assertEquals(6, AnswerProcessor(Logger(LogLevel.NONE)).countCommonAnswersPerGroup(answers))
     }
 }

@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ShipSimulatorTest {
-    val logger = Logger(LogLevel.DEBUG)
+    val logger = Logger(LogLevel.NONE)
     val input = sequenceOf("F10", "N3", "F7", "R90", "F11")
 
     @Test

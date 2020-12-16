@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class InstructionRunnerTest {
-    private val logger = Logger(LogLevel.DEBUG)
+    private val logger = Logger(LogLevel.NONE)
     private val input = sequenceOf("nop +0",
         "acc +1",
         "jmp +4",

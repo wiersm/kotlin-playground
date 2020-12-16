@@ -11,7 +11,7 @@ class ValidPasswordCounterTest {
             "1-3 b: cdefg",
             "2-9 c: ccccccccc")
 
-        val nrOfValidPasswords = ValidPasswordCounter(Logger(LogLevel.DEBUG)).countValidPasswordsForSledCompany(input)
+        val nrOfValidPasswords = ValidPasswordCounter(Logger(LogLevel.NONE)).countValidPasswordsForSledCompany(input)
 
         assertEquals(2, nrOfValidPasswords)
     }
@@ -21,7 +21,7 @@ class ValidPasswordCounterTest {
             "1-3 b: cdefg",
             "2-9 c: ccccccccc")
 
-        val nrOfValidPasswords = ValidPasswordCounter(Logger(LogLevel.DEBUG)).countValidPasswordsForTobogganCompany(input)
+        val nrOfValidPasswords = ValidPasswordCounter(Logger(LogLevel.NONE)).countValidPasswordsForTobogganCompany(input)
 
         assertEquals(1, nrOfValidPasswords)
     }

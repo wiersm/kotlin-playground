@@ -26,7 +26,7 @@ class PassportValidatorTest {
             "ecl:brn pid:760753108 byr:1931",
             "hgt:179cm"
         )
-        val nrOfValidPassports = PassportValidator(Logger(LogLevel.DEBUG)).countValidPassports(input, false)
+        val nrOfValidPassports = PassportValidator(Logger(LogLevel.NONE)).countValidPassports(input, false)
 
         assertEquals(3, nrOfValidPassports)
     }
@@ -46,7 +46,7 @@ class PassportValidatorTest {
             "eyr:2038 hcl:74454a iyr:2023",
             "pid:3556412378 byr:2007"
         )
-        val nrOfValidPassports = PassportValidator(Logger(LogLevel.DEBUG)).countValidPassports(input, true)
+        val nrOfValidPassports = PassportValidator(Logger(LogLevel.NONE)).countValidPassports(input, true)
 
         assertEquals(0, nrOfValidPassports)
     }
@@ -65,7 +65,7 @@ class PassportValidatorTest {
             "",
             "iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719"
         )
-        val nrOfValidPassports = PassportValidator(Logger(LogLevel.DEBUG)).countValidPassports(input, true)
+        val nrOfValidPassports = PassportValidator(Logger(LogLevel.NONE)).countValidPassports(input, true)
 
         assertEquals(4, nrOfValidPassports)
     }

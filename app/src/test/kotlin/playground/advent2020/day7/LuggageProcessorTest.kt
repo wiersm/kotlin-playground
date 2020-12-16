@@ -18,14 +18,14 @@ class LuggageProcessorTest {
 
     @Test
     fun `should figure out suitable containers`() {
-        val nrOfSuitableContainers = LuggageProcessor(Logger(LogLevel.DEBUG)).countSuitableContainers("shiny gold", input1)
+        val nrOfSuitableContainers = LuggageProcessor(Logger(LogLevel.NONE)).countSuitableContainers("shiny gold", input1)
 
         assertEquals(4, nrOfSuitableContainers)
     }
 
     @Test
     fun `should count contents 1`() {
-        val nrRequired = LuggageProcessor(Logger(LogLevel.DEBUG)).countRequiredContents("shiny gold", input1)
+        val nrRequired = LuggageProcessor(Logger(LogLevel.NONE)).countRequiredContents("shiny gold", input1)
         assertEquals(32, nrRequired)
     }
 
@@ -38,7 +38,7 @@ class LuggageProcessorTest {
             "dark green bags contain 2 dark blue bags.",
             "dark blue bags contain 2 dark violet bags.",
             "dark violet bags contain no other bags.")
-        val nrRequired = LuggageProcessor(Logger(LogLevel.DEBUG)).countRequiredContents("shiny gold", input2)
+        val nrRequired = LuggageProcessor(Logger(LogLevel.NONE)).countRequiredContents("shiny gold", input2)
         assertEquals(126, nrRequired)
     }
 }

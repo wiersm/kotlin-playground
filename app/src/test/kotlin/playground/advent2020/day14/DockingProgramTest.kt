@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class DockingProgramTest {
-    val logger = Logger(LogLevel.DEBUG)
+    val logger = Logger(LogLevel.NONE)
 
     @Test
     fun `should sum address space with bit mask applied`() {

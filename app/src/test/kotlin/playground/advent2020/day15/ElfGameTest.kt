@@ -7,7 +7,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ElfGameTest {
-    val l = Logger(LogLevel.DEBUG)
+    val l = Logger(LogLevel.NONE)
 
     @Test
     fun `should play the game`() {

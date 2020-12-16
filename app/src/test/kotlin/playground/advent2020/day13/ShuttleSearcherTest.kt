@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ShuttleSearcherTest {
-    val logger = Logger(LogLevel.DEBUG)
+    val logger = Logger(LogLevel.NONE)
     val buses = sequenceOf("7", "13", "x", "x", "59", "x", "31", "19")
 
     @Test

@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class SeatDeterminationTest {
-    val logger = Logger(LogLevel.DEBUG)
+    val logger = Logger(LogLevel.NONE)
 
     @Test
     fun `should determine seat ID from code`() {
