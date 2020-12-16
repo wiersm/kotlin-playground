@@ -16,6 +16,66 @@ class TicketAnalyser(val l: Logger) {
         }.sum()
     }
 
+    fun multiplyDepartureFields(inputLines: Sequence<String>): Long {
+        // Read the input.
+        val input = Input(inputLines)
+
+        // First create a list of tickets that have valid fields.
+        val validTickets = input.nearbyTickets.filterNot { ticket ->
+            ticket.values.any { value ->
+                input.rules.none { rule ->
+                    rule.validFor(value)
+                }
+            }
+        }
+
+        l.debug("Valid tickets left over: $validTickets")
+
+        // For each field of the ticket, start with a list containing all the rules.
+        val nrOfFields = input.myTicket.values.size
+        val matchingRulesPerField = List(nrOfFields) { input.rules.toMutableList() }
+
+        // For each of the nearby valid tickets for each field remove rules that do not match.
+        validTickets.forEach { ticket ->
+            ticket.values.forEachIndexed { index, value ->
+                matchingRulesPerField[index].removeIf { rule ->
+                    val remove = !rule.validFor(value)
+                    if (remove) l.debug("Removing ${rule.fieldName} as an option for field $index")
+                    remove
+                }
+            }
+        }
+
+        // Create a map of the fields that have been determined.
+        val fieldNames = mutableMapOf<String, Int>()
+
+        // Do the following repeatedly. Should only be necessary at most as many times as there are fields.
+        repeat(nrOfFields) {
+            // For each field, if there is only one matching rule, then we know the field name.
+            matchingRulesPerField.forEachIndexed { index, matchingRules ->
+                if (matchingRules.size == 1) {
+                    val fieldName = matchingRules[0].fieldName
+                    l.debug("Determined that field $index is the $fieldName")
+                    fieldNames[fieldName] = index
+                }
+            }
+
+            // Now remove the known field names as options for the other fields.
+            matchingRulesPerField.forEach { rules -> rules.removeIf { rule -> fieldNames.keys.contains(rule.fieldName) } }
+        }
+
+        // At this point we should have determined all fields (if the input is correct).
+        // Return the product of all the departure fields.
+        return fieldNames.filter { entry ->
+            // Filter the fields that start with 'departure'
+            entry.key.startsWith("departure")
+        }.map { entry ->
+            // Take the values on my ticket for that field and multiply them all.
+            // (The end result will be a big number, so we convert to Long.)
+            input.myTicket.values[entry.value].toLong()
+        }.reduce(Long::times)
+    }
+
 }
 
 private class Input(inputLines: Sequence<String>) {
@@ -64,9 +124,10 @@ private class Rule(val fieldName: String, val min1: Int, val max1: Int, val min2
     fun validFor(value: Int): Boolean {
         return (value in min1..max1) || (value in min2..max2)
     }
-
 }
 
 private class Ticket(val values: List<Int>) {
-
+    override fun toString(): String {
+        return values.toString()
+    }
 }
