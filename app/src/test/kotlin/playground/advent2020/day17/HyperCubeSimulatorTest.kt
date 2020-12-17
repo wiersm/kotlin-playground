@@ -5,7 +5,7 @@ import playground.utilities.Logger
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CubeSimulatorTest {
+class HyperCubeSimulatorTest {
     val logger = Logger(LogLevel.NONE)
 
     @Test
@@ -15,7 +15,7 @@ class CubeSimulatorTest {
             "..#",
             "###"
         )
-        val result = CubeSimulator(logger).activeCubesAfterSixCycles(input)
-        assertEquals(112, result)
+        val result = HyperCubeSimulator(logger).activeCubesAfterSixCycles(input)
+        assertEquals(848, result)
     }
 }

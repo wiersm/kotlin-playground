@@ -16,7 +16,7 @@ class Grid3D<T>(val values: MutableList<MutableList<MutableList<T>>>) {
     fun forEachIndexed(f: (Int, Int, Int) -> Unit) {
         values.forEachIndexed { z, layerRows ->
             layerRows.forEachIndexed { y, row ->
-                row.forEachIndexed { x, value -> f(x, y, z) }
+                row.forEachIndexed { x, _ -> f(x, y, z) }
             }
         }
     }
