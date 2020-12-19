@@ -27,9 +27,11 @@ private class Matcher(val l: Logger) {
 
     private fun matchesForRule(rule: Rule, startIndex: Int, string: String, rules: Map<Int, Rule>): Sequence<Match> {
         return sequence {
-            if (rule.char != null && string[startIndex] == rule.char) {
-                l.debug("Character at position $startIndex matches $rule")
-                yield(Match(1))
+            if (rule.char != null) {
+                if (startIndex < string.length && string[startIndex] == rule.char) {
+                    l.debug("Character at position $startIndex matches $rule")
+                    yield(Match(1))
+                }
             } else {
                 if (rule.rules1 != null) yieldAll(matchesForCompoundRule(rule.rules1, startIndex, string, rules))
                 if (rule.rules2 != null) yieldAll(matchesForCompoundRule(rule.rules2, startIndex, string, rules))
