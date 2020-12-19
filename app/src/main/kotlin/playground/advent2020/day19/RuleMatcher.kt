@@ -46,26 +46,30 @@ private class Matcher(val l: Logger) {
             var matchesSoFar = matchesForRule(firstRule, startIndex, string, rules)
 
             // Now try to match the rest of the rules in the compound rule.
+            // TODO: replace this foreach with recursion to make even better use of the sequences?
             compoundRule.drop(1).forEach { nextRuleId ->
                 val nextRule = rules[nextRuleId] ?: error("Invalid compound rule: $compoundRule")
 
                 // Construct a new list of matches matching what we have so far and the next rule.
-                // TODO: use a sequence instead of a list here as well
-                val newMatches = mutableListOf<Match>()
-                matchesSoFar.forEach { previousMatch ->
-                    val matchesForNextRule = matchesForRule(nextRule, startIndex + previousMatch.length, string, rules)
-                    matchesForNextRule.forEach { nextMatch ->
-                        newMatches.add(Match(previousMatch.length + nextMatch.length))
-                    }
-                }
+                val newMatches = matchesWithNextRule(matchesSoFar, nextRule, startIndex, string, rules)
 
                 // Replace the matches so far with the new list.
-                l.debug("New matches for compound rule $compoundRule so far: $newMatches")
-                matchesSoFar = newMatches.asSequence()
+                matchesSoFar = newMatches
             }
 
             // Yield the result.
             yieldAll(matchesSoFar)
+        }
+    }
+
+    private fun matchesWithNextRule(matchesSoFar: Sequence<Match>, nextRule: Rule, startIndex: Int, string: String, rules: Map<Int, Rule>): Sequence<Match> {
+        return sequence {
+            matchesSoFar.forEach { previousMatch ->
+                val matchesForNextRule = matchesForRule(nextRule, startIndex + previousMatch.length, string, rules)
+                matchesForNextRule.forEach { nextMatch ->
+                    yield(Match(previousMatch.length + nextMatch.length))
+                }
+            }
         }
     }
 
