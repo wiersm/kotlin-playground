@@ -33,6 +33,7 @@ class FileReader(val logger: Logger) {
     fun readBlocksOfLines(resource: URL): Sequence<Sequence<String>> {
         return readFile(resource)
             .splitToSequence("\n\n")
+            .filterNot { block -> block.isBlank() }
             .map { block ->
                 block.splitToSequence("\n")
                     .filter { line -> line.isNotBlank() }
