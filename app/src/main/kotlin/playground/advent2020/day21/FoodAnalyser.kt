@@ -7,6 +7,31 @@ class FoodAnalyser(val l: Logger) {
         val foods = parseFoods(input)
         l.debug("Read foods:\n${foods.joinToString("\n")}")
 
+        // Create a map of allergens to possible ingredients that might contain them
+        val allergenToIngredients = constructAllergenToIngredientMap(foods)
+
+        // Take the ingredients that are in this map
+        val ingredientsWithPossibleAllergens = allergenToIngredients.values.reduce { ingredients, nextIngredients ->
+            ingredients.union(nextIngredients).toMutableList()
+        }
+
+        l.debug("Ingredients that can contain allergens: $ingredientsWithPossibleAllergens")
+
+        // Now create the list of other ingredient
+        val allIngredients = foods.map { food -> food.ingredients }.reduce { ingredients, nextIngredients ->
+            ingredients.union(nextIngredients).toList()
+        }
+        val ingredientsWithoutAllergens = allIngredients.filterNot { ingredientsWithPossibleAllergens.contains(it) }
+
+        l.debug("Ingredients without allergens: $ingredientsWithoutAllergens")
+
+        // Count how many times these occur
+        return foods.map { food ->
+            food.ingredients.filter { ingredientsWithoutAllergens.contains(it) }.count()
+        }.sum()
+    }
+
+    private fun constructAllergenToIngredientMap(foods: List<Food>): MutableMap<String, MutableList<String>> {
         // Map allergens to foods
         val allergenToFoodMap = mutableMapOf<String, MutableList<Food>>()
         foods.forEach { food ->
@@ -24,26 +49,38 @@ class FoodAnalyser(val l: Logger) {
         }
 
         l.debug("Result so far: $allergenToIngredients")
+        return allergenToIngredients
+    }
 
-        // The ingredients that are in this map are the ones that can contain allergens
-        val ingredientsWithPossibleAllergens = allergenToIngredients.values.reduce { ingredients, nextIngredients ->
-            ingredients.union(nextIngredients).toMutableList()
+    fun listIngredientsWithAllergens(input: Sequence<String>): String {
+        val foods = parseFoods(input)
+
+        // Again create the map of allergens to possible ingredients that contain them
+        val allergenToIngredients = constructAllergenToIngredientMap(foods)
+
+        // We're going to create a map of confirmed allergens step by step
+        val confirmedAllergenIngredients = sortedMapOf<String, String>()
+
+        // Eliminate ingredients until we have confirmed them all
+        // It should be necessary to do this at most once for each allergen
+        repeat(allergenToIngredients.size) {
+            // Find allergens that map to only one ingredient
+            allergenToIngredients.filterValues {
+                ingredients -> ingredients.size == 1
+            }.forEach { (allergen, ingredients) ->
+                // Add these to the map of confirmed ingredients
+                val confirmedIngredient = ingredients[0]
+                confirmedAllergenIngredients[allergen] = confirmedIngredient
+
+                // And remove them from the lists of potential matches
+                allergenToIngredients.values.forEach { possibleIngredients -> possibleIngredients.remove(confirmedIngredient) }
+            }
         }
 
-        l.debug("Ingredients that can contain allergens: $ingredientsWithPossibleAllergens")
+        l.debug("Confirmed allergens and ingredients: $confirmedAllergenIngredients")
 
-        // We are interested in the other ingredients
-        val allIngredients = foods.map { food -> food.ingredients }.reduce { ingredients, nextIngredients ->
-            ingredients.union(nextIngredients).toList()
-        }
-        val ingredientsWithoutAllergens = allIngredients.filterNot { ingredientsWithPossibleAllergens.contains(it) }
-
-        l.debug("Ingredients without allergens: $ingredientsWithoutAllergens")
-
-        // Count how many times these occur
-        return foods.map { food ->
-            food.ingredients.filter { ingredientsWithoutAllergens.contains(it) }.count()
-        }.sum()
+        // Return the result as a comma-separated list (the map is sorted on allergen name)
+        return confirmedAllergenIngredients.values.joinToString(",")
     }
 
     private fun parseFoods(input: Sequence<String>): List<Food> {
