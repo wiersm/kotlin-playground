@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class RuleMatcherTest {
-    val l = Logger(LogLevel.DEBUG)
+    val l = Logger(LogLevel.NONE)
 
     @Test
     fun `should count matching messages simplest pattern`() {

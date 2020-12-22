@@ -8,7 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ImageCompositorTest {
-    val l = Logger(LogLevel.DEBUG)
+    val l = Logger(LogLevel.NONE)
 
     @Test
     fun `should multiply corner tiles`() {
